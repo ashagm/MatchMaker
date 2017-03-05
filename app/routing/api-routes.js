@@ -16,31 +16,34 @@ module.exports = function(app){
 	});
 
 	app.post('/api/friends', function(req, res){
-		// console.log("in post" , req.body);
-		friendsData.push(req.body);
-		// console.log("changed data", friendsData);
 
 		var differenceArray = [];
-
-		var currentUserData = req.body;
+		// var currentUserData = req.body;
 		var currentUserScores = req.body.scores;
-		// console.log(currentUserScores.length);
 
-		for(var i=0; i < friendsData.length-1; i++){
-			var friendsScores = friendsData[i].scores;
-			// console.log(friendsScores);
-			for(var j=0; j < 10; j++){
-				if(parseInt(currentUserScores[j]) === friendsScores[j]){
-					//ignore that score
-				}else{
-					console.log(i, "comparing[", currentUserScores[j], friendsScores[j], "]");
-					 differenceArray.push(Math.abs(parseInt(currentUserScores[j]) - friendsScores[j]));
-				}
-
+		for(var i=0; i < friendsData.length; i++){
+			var friendsScores = friendsData[i].scores;		
+			var sum = 0;
+			for(var j=0; j < 10; j++){								
+				// console.log(i, "comparing[", currentUserScores[j], friendsScores[j], "]");
+				sum += Math.abs(parseInt(currentUserScores[j]) - friendsScores[j]);							
 			}
+			differenceArray.push({"index" : i, "sum" : sum});
 		}
+		// console.log("before sorting differenceArray", differenceArray);
 
-		console.log("differenceArray", differenceArray);
-		res.json(friendsData);		
+		differenceArray.sort(function(a,b){
+			return a.sum - b.sum;
+		});
+
+		// console.log("differenceArray", differenceArray)	;
+		var indexMatched = differenceArray[0].index;
+		
+		console.log("Friend matched index!", differenceArray[0].index);
+
+		// console.log("differenceArray", differenceArray);
+		friendsData.push(req.body);
+		
+		res.json(friendsData[indexMatched]);		
 	});
 }

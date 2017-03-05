@@ -4,7 +4,7 @@ var path = require('path');
 
 
 var app = express(); // Tells node that we are creating an "express" server
-var PORT = process.env.PORT || 3000; // Sets an initial port. We'll use this later in our listener
+var PORT = process.env.PORT || 5000; // Sets an initial port. We'll use this later in our listener
 
 // BodyParser makes it easy for our server to interpret data sent to it.
 app.use(bodyParser.json());
@@ -12,8 +12,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.text());
 app.use(bodyParser.json({type:'application/vnd.api+json'}));
 
-app.use(express.static("assets"));
-// app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static("assets"));
+app.use(express.static(path.join(__dirname, '/app/public')));
+
+// console.log(process.cwd()); //instead of _dirname can be used
 
 require('./app/routing/api-routes.js')(app); 
 require('./app/routing/html-routes.js')(app);
