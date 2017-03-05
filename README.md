@@ -1,4 +1,4 @@
-# MatchMaker
-A full-stack Dating application that uses a survey to find the best compatible match.
+# Friend Finder
+A full-stack application that uses a survey to find the best compatible person one can be friends with.
 
 Technologies used: HTML/CSS, Bootstrap, Javascript, Jquery, Node.js and Express.js.
